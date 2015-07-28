@@ -1,0 +1,11 @@
+.idea/
+bin/
+build/
+Makefile
+*.user
+*.a
+tests/bin/
+tests/build/
+tests/Makefile
+tests/*.user
+*.autosave

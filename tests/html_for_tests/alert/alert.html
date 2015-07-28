@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title>Alert Test</title>
+</head>
+<body>
+    <div id="result"></div>
+    <button onclick="alert_confirm()" id="alert_confirm">Confirm</button>
+    <button onclick="alert_prompt()" id="alert_prompt">Prompt</button>
+    <button onclick="alert_prompt_text()" id="alert_prompt_text">Prompt Text</button>
+
+    <script>
+        function alert_confirm()
+        {
+            var elm = document.getElementById("result");
+            elm.innerHTML = "";
+            var x = confirm("Alert Confirm");
+            if (x)
+                elm.innerHTML = "Accept";
+            else
+                elm.innerHTML = "Dismiss";
+        }
+
+        function alert_prompt()
+        {
+            var elm = document.getElementById("result");
+            elm.innerHTML = "";
+            var x = prompt("Alert Prompt");
+
+            if(x != null)
+                elm.innerHTML = "Accept Prompt";
+            else
+                elm.innerHTML = "Dismiss Prompt";
+
+        }
+
+        function alert_prompt_text()
+        {
+            var elm = document.getElementById("result");
+            elm.innerHTML = "";
+            elm.innerHTML = prompt("Alert Prompt");
+        }
+    </script>
+
+</body>
+</html>

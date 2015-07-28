@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Move To</title>
+</head>
+<body>
+    <style>
+        #element1 {
+            width: 100px;
+            height: 100px;
+            background-color: #000;
+        }
+        #element2 {
+            width: 100px;
+            height: 50px;
+            background-color: #00ff00;
+        }
+    </style>
+
+    <div id="element1"></div>
+    <div id="element2"></div>
+
+    <script>
+
+        var elm = document.getElementById("element1");
+
+        elm.onclick       = function (e) { test(e); }
+        elm.onmousedown   = function (e) { test(e); }
+        elm.onmouseup     = function (e) { test(e); }
+        elm.ondblclick    = function (e) { test(e); }
+        elm.oncontextmenu = function (e) { test(e); return false; }
+
+        function test(e)
+        {console.log(e);
+            var button;
+            e = e || window.event;
+
+            if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+                button = e.which;
+            else if ("button" in e)  // IE, Opera
+                button = e.button;
+
+            var elm = document.getElementById("element2");
+            elm.innerHTML = e.type + " - " + button;
+        }
+    </script>
+
+</body>
+</html>
