@@ -1,4 +1,4 @@
-   #ifndef WEBDRIVER_H
+#ifndef WEBDRIVER_H
 #define WEBDRIVER_H
 
 #include <QObject>
@@ -13,6 +13,7 @@
 #include "by.h"
 #include "targetlocator.h"
 #include "actions.h"
+#include "server.h"
 
 class WebDriverHub;
 
@@ -47,8 +48,9 @@ public:
 
     Navigation*     navigate();
     Options*        manage();
-    TargetLocator*  swichTo();
+    TargetLocator*  switchTo();
     Actions*        actions();
+    Server*         server();
 
 protected:
     void init(QString host, QString port, DesiredCapabilities* dc, QString url);

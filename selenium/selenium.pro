@@ -38,7 +38,8 @@ SOURCES += \
     actions.cpp \
     mouse.cpp \
     touch.cpp \
-    select.cpp
+    select.cpp \
+    server.cpp
 
 HEADERS += \
     desiredcapabilities.h \
@@ -68,7 +69,8 @@ HEADERS += \
     actions.h \
     mouse.h \
     touch.h \
-    select.h
+    select.h \
+    server.h
 #unix {
 #    target.path = /usr/lib
 #    INSTALLS += target

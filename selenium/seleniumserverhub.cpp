@@ -30,7 +30,7 @@ void SeleniumServerHub::buildUrl(QString host, QString port)
     m_port = port;
 
     m_urlHub = "http://";
-    m_urlHub.append(m_host).append(":").append(m_port).append("/wd/hub/session");
+    m_urlHub.append(m_host).append(":").append(m_port).append("/wd/hub/");
 }
 
 QJsonObject SeleniumServerHub::exec(QString url, QByteArray rawBody, int method)

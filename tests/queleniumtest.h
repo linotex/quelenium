@@ -218,6 +218,10 @@ private Q_SLOTS:
     void alertSendKeysNoAlertPresentCase1();
     void alertSendKeysElementNotVisibleExceptionCase1();
 
+    /**
+     * Server Test Cases
+     */
+    void serverStatusCase();
 
     void init();
     void cleanup();

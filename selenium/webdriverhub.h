@@ -20,7 +20,9 @@ public:
     explicit WebDriverHub(QString host, QString port, DesiredCapabilities *dc);
     ~WebDriverHub();
 
-    DesiredCapabilities *capabilities(bool refresh);
+    DesiredCapabilities* capabilities(bool refresh);
+
+    QJsonObject status();
 
     void startSession();
     void deleteSession();

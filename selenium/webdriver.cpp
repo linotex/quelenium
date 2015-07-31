@@ -128,7 +128,7 @@ Options* WebDriver::manage()
     return new Options(this, getHub());
 }
 
-TargetLocator* WebDriver::swichTo()
+TargetLocator* WebDriver::switchTo()
 {
     return new TargetLocator(getHub());
 }
@@ -136,4 +136,9 @@ TargetLocator* WebDriver::swichTo()
 Actions* WebDriver::actions()
 {
     return new Actions(getHub());
+}
+
+Server* WebDriver::server()
+{
+    return new Server(getHub());
 }

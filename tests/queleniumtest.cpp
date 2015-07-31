@@ -35,7 +35,7 @@ void QueleniumTest::cleanup()
 }
 
 /**
- * Check all google cookies
+ * Check all cookies
  */
 int QueleniumTest::checkAllCookies()
 {
@@ -74,7 +74,7 @@ void QueleniumTest::compareCookie(Cookie *original, Cookie *tested, QString defa
 void QueleniumTest::notFoundWindow()
 {
     QString windowHandle = driver->windowHandle();
-    driver->swichTo()->window(windowHandle);
+    driver->switchTo()->window(windowHandle);
 
     WebElement* elm = driver->findElement(By::tagName("body"));
     elm->sendKeys(Keys::CONTROL + "n");//open new window
@@ -1922,7 +1922,7 @@ void QueleniumTest::alertDismissCase1()
     WebElement* btn = driver->findElement(By::id("alert_confirm"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     alert->dismiss();
 
     WebElement* result = driver->findElement(By::id("result"));
@@ -1939,7 +1939,7 @@ void QueleniumTest::alertDismissCase2()
     WebElement* btn = driver->findElement(By::id("alert_prompt"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     alert->dismiss();
 
     WebElement* result = driver->findElement(By::id("result"));
@@ -1956,7 +1956,7 @@ void QueleniumTest::alertAcceptCase1()
     WebElement* btn = driver->findElement(By::id("alert_confirm"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     alert->accept();
 
     WebElement* result = driver->findElement(By::id("result"));
@@ -1973,7 +1973,7 @@ void QueleniumTest::alertAcceptCase2()
     WebElement* btn = driver->findElement(By::id("alert_prompt"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     alert->accept();
 
     WebElement* result = driver->findElement(By::id("result"));
@@ -1990,7 +1990,7 @@ void QueleniumTest::alertTextCase1()
     WebElement* btn = driver->findElement(By::id("alert_confirm"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     QString text = alert->text();
     alert->accept();
 
@@ -2007,7 +2007,7 @@ void QueleniumTest::alertTextCase2()
     WebElement* btn = driver->findElement(By::id("alert_prompt"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     QString text = alert->text();
     alert->accept();
 
@@ -2024,7 +2024,7 @@ void QueleniumTest::alertSendKeysCase()
     WebElement* btn = driver->findElement(By::id("alert_prompt_text"));
     btn->click();
 
-    Alert* alert = driver->swichTo()->alert();
+    Alert* alert = driver->switchTo()->alert();
     alert->sendKeys("Test Prompt");
     alert->accept();
 
@@ -2044,7 +2044,7 @@ void QueleniumTest::alertDismissNoAlertPresentCase1()
 
         driver->get(m_testUrl + "/alert/alert.html");
 
-        Alert* alert = driver->swichTo()->alert();
+        Alert* alert = driver->switchTo()->alert();
         alert->dismiss();
 
     } catch(NoAlertOpenErrorException* e) {
@@ -2066,7 +2066,7 @@ void QueleniumTest::alertAcceptNoAlertPresentCase1()
 
         driver->get(m_testUrl + "/alert/alert.html");
 
-        Alert* alert = driver->swichTo()->alert();
+        Alert* alert = driver->switchTo()->alert();
         alert->accept();
 
     } catch(NoAlertOpenErrorException* e) {
@@ -2088,7 +2088,7 @@ void QueleniumTest::alertTextNoAlertPresentCase1()
 
         driver->get(m_testUrl + "/alert/alert.html");
 
-        Alert* alert = driver->swichTo()->alert();
+        Alert* alert = driver->switchTo()->alert();
         alert->text();
 
     } catch(NoAlertOpenErrorException* e) {
@@ -2110,7 +2110,7 @@ void QueleniumTest::alertSendKeysNoAlertPresentCase1()
 
         driver->get(m_testUrl + "/alert/alert.html");
 
-        Alert* alert = driver->swichTo()->alert();
+        Alert* alert = driver->switchTo()->alert();
         alert->sendKeys("");
 
     } catch(NoAlertOpenErrorException* e) {
@@ -2135,7 +2135,7 @@ void QueleniumTest::alertSendKeysElementNotVisibleExceptionCase1()
         WebElement* btn = driver->findElement(By::id("alert_confirm"));
         btn->click();
 
-        Alert* alert = driver->swichTo()->alert();
+        Alert* alert = driver->switchTo()->alert();
         alert->sendKeys("Test Prompt");
 
 
@@ -2144,6 +2144,25 @@ void QueleniumTest::alertSendKeysElementNotVisibleExceptionCase1()
         QVERIFY(!e->message().isEmpty());
     } catch( ... ) {
         QFAIL(QString("Not ElementNotVisibleException").toUtf8());
+    }
+}
+
+/******** SERVER TESTS **********************************************************************************/
+void QueleniumTest::serverStatusCase()
+{
+    Status* status = driver->server()->status();
+
+    //OS Linux x64 3.16.0-45-generic
+    QCOMPARE(status->os()->arch(), QString("amd64"));
+    QCOMPARE(status->os()->name(), QString("Linux"));
+    QCOMPARE(status->os()->version(), QString("3.16.0-45-generic"));
+
+    //Selenium Server Standalone
+    QCOMPARE(status->build()->version(), QString("2.46.0"));
+
+    //Java
+    if(status->java()) {
+        QCOMPARE(status->java()->version(), QString("1.8.0_45"));
     }
 }
 
