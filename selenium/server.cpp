@@ -31,7 +31,7 @@ QList<Session*> Server::sessions()
         QJsonObject jsonSession = jsonSessions.at(i).toObject();
         QJsonObject jsonCap = jsonSession["capabilities"].toObject();
 
-        DesiredCapabilities* c = new DesiredCapabilities(BrowserType::fromString(jsonCap["browserName"].toString()));
+        DesiredCapabilities* c = new DesiredCapabilities(Browser::fromString(jsonCap["browserName"].toString()));
         c->setPlatform(Platform::fromString(jsonCap["platform"].toString()));
         c->setVersion(jsonCap["version"].toString());
 

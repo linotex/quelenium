@@ -9,7 +9,7 @@
 #include "seleniumserverhub.h"
 #include "desiredcapabilities.h"
 #include "proxy.h"
-#include "browsertype.h"
+#include "browser.h"
 #include "unexpectedalertbehaviour.h"
 #include "platform.h"
 

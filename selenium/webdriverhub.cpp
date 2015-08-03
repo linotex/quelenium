@@ -125,7 +125,7 @@ QJsonArray WebDriverHub::sessions()
 void WebDriverHub::startSession()
 {
     QJsonObject desiredCapabilities;
-    desiredCapabilities["browserName"] = QString(BrowserType::toString(m_dc->browser()));
+    desiredCapabilities["browserName"] = QString(Browser::toString(m_dc->browser()));
 
     if(NULL != m_dc->proxy()) {
 

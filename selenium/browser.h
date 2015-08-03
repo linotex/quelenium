@@ -1,13 +1,13 @@
-#ifndef BROWSERTYPE_H
-#define BROWSERTYPE_H
+#ifndef BROWSER_H
+#define BROWSER_H
 
 #include <QObject>
 
-class BrowserType
+class Browser
 {
 public:
 
-    enum BROWSER_TYPE {
+    enum Type {
         FIREFOX,
         CHROME,
         OPERA,
@@ -70,9 +70,9 @@ public:
         return name;
     }
 
-    static BROWSER_TYPE fromString(QString text)
+    static Type fromString(QString text)
     {
-        BROWSER_TYPE browser = UNKNOWN;
+        Type browser = UNKNOWN;
 
         text = text.toLower();
 
@@ -105,4 +105,4 @@ public:
     }
 };
 
-#endif // BROWSERTYPE_H
+#endif // BROWSER_H

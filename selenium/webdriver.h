@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QUrl>
 
-#include "browsertype.h"
+#include "browser.h"
 #include "desiredcapabilities.h"
 #include "navigation.h"
 #include "options.h"
@@ -21,10 +21,10 @@ class WebDriver
 {
 
 public:
-    explicit WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser, QString url);
+    explicit WebDriver(QString host, int port, Browser::Type browser, QString url);
     WebDriver(QString host, int port, DesiredCapabilities* desiredCapabilities, QString url);
 
-    WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser);
+    WebDriver(QString host, int port, Browser::Type browser);
     WebDriver(QString host, int port, DesiredCapabilities* desiredCapabilities);
 
     ~WebDriver();

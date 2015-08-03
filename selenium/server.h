@@ -5,7 +5,7 @@
 #include <QDebug>
 
 #include "desiredcapabilities.h"
-#include "browsertype.h"
+#include "browser.h"
 
 // Server build
 struct Build {

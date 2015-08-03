@@ -1,7 +1,7 @@
 #include "webdriver.h"
 #include "webdriverhub.h"
 
-WebDriver::WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser, QString url)
+WebDriver::WebDriver(QString host, int port, Browser::Type browser, QString url)
 {
     DesiredCapabilities *dc = new DesiredCapabilities(browser);
 
@@ -13,7 +13,7 @@ WebDriver::WebDriver(QString host, int port, DesiredCapabilities* desiredCapabil
     init(host, port, desiredCapabilities, url);
 }
 
-WebDriver::WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser)
+WebDriver::WebDriver(QString host, int port, Browser::Type browser)
 {
     DesiredCapabilities *dc = new DesiredCapabilities(browser);
     init(host, port, dc);

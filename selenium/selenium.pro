@@ -43,7 +43,7 @@ SOURCES += \
 
 HEADERS += \
     desiredcapabilities.h \
-    browsertype.h \
+    browser.h \
     platform.h \
     unexpectedalertbehaviour.h \
     webdriver.h \

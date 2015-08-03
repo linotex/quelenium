@@ -14,11 +14,11 @@ void QueleniumTest::init()
 {
     //This local web server for easy testing
     m_testUrl = "quelenium.local.test";
-    m_host    = "127.0.0.1";
+    m_host    = "192.168.53.147";
     m_port    = 4444;
 
     Proxy *proxy = new Proxy(Proxy::DIRECT);
-    DesiredCapabilities *cap = new DesiredCapabilities(BrowserType::FIREFOX);
+    DesiredCapabilities *cap = new DesiredCapabilities(Browser::FIREFOX);
     cap->setProxy(proxy);
 
     try {
@@ -2171,7 +2171,7 @@ void QueleniumTest::serverStatusCase()
 void QueleniumTest::serverSessionsCase()
 {
     Proxy *proxy = new Proxy(Proxy::DIRECT);
-    DesiredCapabilities *cap = new DesiredCapabilities(BrowserType::FIREFOX);
+    DesiredCapabilities *cap = new DesiredCapabilities(Browser::FIREFOX);
     cap->setProxy(proxy);
 
     int count = 4;
@@ -2200,7 +2200,8 @@ void QueleniumTest::serverSessionsCase()
         QVERIFY(c->isJavascriptEnabled());
         QVERIFY(!c->isRotatable());
         QVERIFY(c->isLocationContextEnabled());
-        QCOMPARE(c->browser(), BrowserType::FIREFOX);
+        QCOMPARE(c->browser(), Browser::FIREFOX);
+        QCOMPARE(c->platform(), Platform::LINUX);
         QCOMPARE(c->version(), QString("39.0"));
     }
 

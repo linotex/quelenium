@@ -6,22 +6,23 @@
 #include <QDebug>
 
 #include "proxy.h"
-#include "browsertype.h"
+#include "browser.h"
+#include "platform.h"
 
 class DesiredCapabilities
 {
 public:
-    DesiredCapabilities(BrowserType::BROWSER_TYPE browser);
+    DesiredCapabilities(Browser::Type browser);
 
-    void setBrowser(BrowserType::BROWSER_TYPE browser)  { m_browserType = browser; }
-    void setProxy(Proxy* proxy)                         { m_proxy = proxy; }
-    void setVersion(QString version)                    { m_version = version; }
-    void setPlatform(int platform)                      { m_platform = platform;}
+    void setBrowser(Browser::Type browser)    { m_browser = browser; }
+    void setProxy(Proxy* proxy)               { m_proxy = proxy; }
+    void setVersion(QString version)          { m_version = version; }
+    void setPlatform(Platform::Type platform) { m_platform = platform;}
 
-    BrowserType::BROWSER_TYPE browser()  { return m_browserType; }
-    Proxy*  proxy()                       { return m_proxy; }
-    int     platform()                    { return m_platform; }
-    QString version()                     { return m_version; }
+    Browser::Type  browser()  { return m_browser; }
+    Platform::Type platform() { return m_platform; }
+    Proxy*         proxy()    { return m_proxy; }
+    QString        version()  { return m_version; }
 
     void setDatabaseEnabled(bool enabled)          { setProperty("databaseEnabled",             enabled); }
     void setLocationContextEnabled(bool enabled)   { setProperty("locationContextEnabled",      enabled); }
@@ -66,10 +67,10 @@ protected:
     //QStringList m_properties;
     QJsonObject m_properties;
 
-    BrowserType::BROWSER_TYPE m_browserType;
-    Proxy*  m_proxy;
-    QString m_version;
-    int     m_platform;
+    Browser::Type  m_browser;
+    Proxy*         m_proxy;
+    QString        m_version;
+    Platform::Type m_platform;
 };
 
 #endif // DESIREDCAPABILITIES_H

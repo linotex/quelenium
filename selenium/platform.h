@@ -6,17 +6,18 @@
 class Platform
 {
 public:
-    enum PLATFORM {
+    enum Type {
         WINDOWS,
         XP,
         VISTA,
         MAC,
         LINUX,
         UNIX,
-        ANDROID
+        ANDROID,
+        UNKNOWN
     };
 
-    static QString toString(int platform)
+    static QString toString(Platform::Type platform)
     {
         QString name = "";
 
@@ -58,9 +59,9 @@ public:
         return name;
     }
 
-    int static fromString(QString platform)
+    Platform::Type static fromString(QString platform)
     {
-        int id = -1;
+        Platform::Type id = UNKNOWN;
 
         if(platform == "WINDOWS")      { id = WINDOWS; }
         else if(platform == "XP")      { id = XP; }

@@ -1,6 +1,6 @@
 #include "desiredcapabilities.h"
 
-DesiredCapabilities::DesiredCapabilities(BrowserType::BROWSER_TYPE browser)
+DesiredCapabilities::DesiredCapabilities(Browser::Type browser)
 {
     setTakesScreenshot(true);
     setHandlesAlerts(true);

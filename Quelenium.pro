@@ -8,4 +8,5 @@ OTHER_FILES += \
     Proxy \
     QueleniumException \
     WebDriver \
-    WebDriverException
+    WebDriverException \
+    README.md
