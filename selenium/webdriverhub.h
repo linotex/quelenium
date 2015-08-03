@@ -17,12 +17,13 @@ class WebDriverHub : public SeleniumServerHub
 {
 
 public:
-    explicit WebDriverHub(QString host, QString port, DesiredCapabilities *dc);
+    explicit WebDriverHub(QString host, int port, DesiredCapabilities *dc);
     ~WebDriverHub();
 
     DesiredCapabilities* capabilities(bool refresh);
 
     QJsonObject status();
+    QJsonArray  sessions();
 
     void startSession();
     void deleteSession();

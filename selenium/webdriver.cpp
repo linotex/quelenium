@@ -1,25 +1,25 @@
 #include "webdriver.h"
 #include "webdriverhub.h"
 
-WebDriver::WebDriver(QString host, QString port, BrowserType::BROWSER_TYPE browser, QString url)
+WebDriver::WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser, QString url)
 {
     DesiredCapabilities *dc = new DesiredCapabilities(browser);
 
     init(host, port, dc, url);
 }
 
-WebDriver::WebDriver(QString host, QString port, DesiredCapabilities* desiredCapabilities, QString url)
+WebDriver::WebDriver(QString host, int port, DesiredCapabilities* desiredCapabilities, QString url)
 {
     init(host, port, desiredCapabilities, url);
 }
 
-WebDriver::WebDriver(QString host, QString port, BrowserType::BROWSER_TYPE browser)
+WebDriver::WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser)
 {
     DesiredCapabilities *dc = new DesiredCapabilities(browser);
     init(host, port, dc);
 }
 
-WebDriver::WebDriver(QString host, QString port, DesiredCapabilities *desiredCapabilities)
+WebDriver::WebDriver(QString host, int port, DesiredCapabilities *desiredCapabilities)
 {
     init(host, port, desiredCapabilities);
 }
@@ -32,13 +32,13 @@ WebDriver::~WebDriver()
 /**
  * Init WebDriverHub
  */
-void WebDriver::init(QString host, QString port, DesiredCapabilities *dc, QString url)
+void WebDriver::init(QString host, int port, DesiredCapabilities *dc, QString url)
 {
     init(host, port, dc);
     get(url);
 }
 
-void WebDriver::init(QString host, QString port, DesiredCapabilities *dc)
+void WebDriver::init(QString host, int port, DesiredCapabilities *dc)
 {
     m_wdh =  new WebDriverHub(host, port, dc);
     m_wdh->startSession();

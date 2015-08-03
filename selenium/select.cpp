@@ -1,6 +1,6 @@
 #include "select.h"
 #include "by.h"
-
+#include <QDebug>
 Select::Select(WebElement* element) :
     m_element(element)
 {
@@ -45,7 +45,7 @@ WebElement* Select::firstSelectedOption()
 
     WebElement* option = 0;
 
-    for(int i = 0; opts.size(); i++) {
+    for(int i = 0; i < opts.size(); i++) {
         if(opts.at(i)->isSelected()) {
             option = opts.at(i);
             break;
@@ -55,7 +55,6 @@ WebElement* Select::firstSelectedOption()
     if(option == 0) {
         WebDriverException::throwException("No options are selected", ResponseStatusCodes::NO_SUCH_ELEMENT);
     }
-
     return option;
 }
 

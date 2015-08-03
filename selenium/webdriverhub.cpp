@@ -1,6 +1,6 @@
 #include "webdriverhub.h"
 
-WebDriverHub::WebDriverHub(QString host, QString port, DesiredCapabilities* dc) :
+WebDriverHub::WebDriverHub(QString host, int port, DesiredCapabilities* dc) :
     SeleniumServerHub(host, port)
 {
     m_dc = dc;
@@ -84,6 +84,28 @@ QJsonObject WebDriverHub::status()
 }
 
 /**
+ * GET /sessions
+ *
+ * Returns a list of the currently active sessions.
+ * Each session will be returned as a list of JSON objects with the following keys:
+ *
+ * |--------------------------------------------------------------------------|
+ * | Key          | Type   | Description                                      |
+ * |--------------------------------------------------------------------------|
+ * | id           | string | The session ID.                                  |
+ * |--------------------------------------------------------------------------|
+ * | capabilities | object | An object describing the session's capabilities. |
+ * |--------------------------------------------------------------------------|
+ *
+ * Returns:
+ *      {Array.<Object>} - A list of the currently active sessions.
+ */
+QJsonArray WebDriverHub::sessions()
+{
+    return getValueArray("sessions");
+}
+
+/**
  * POST /session
  *
  * Create a new session.
@@ -127,48 +149,16 @@ void WebDriverHub::startSession()
         desiredCapabilities["proxy"] = proxy;
     }
 
-    if(m_dc->hasJavascriptEnabled()) {
-        desiredCapabilities["javascriptEnabled"] = m_dc->isJavascriptEnabled();
-    }
+    //set desired capabilities properties
+    QJsonObject props = m_dc->properties();
+    QJsonObject::iterator i;
+    for(i = props.begin();i != props.end(); ++i) {
 
-    if(m_dc->hasDatabaseEnabled()) {
-        desiredCapabilities["databaseEnabled"] = m_dc->isDatabaseEnabled();
-    }
+        if(i.key() == "takesScreenshot" || i.key() == "handlesAlerts" || i.key() == "cssSelectorsEnabled") {
+            continue;
+        }
 
-    if(m_dc->hasLocationContextEnabled()) {
-        desiredCapabilities["locationContextEnabled"] = m_dc->isLocationContextEnabled();
-    }
-
-    if(m_dc->hasApplicationCacheEnabled()) {
-        desiredCapabilities["applicationCacheEnabled"] = m_dc->isApplicationCacheEnabled();
-    }
-
-    if(m_dc->hasBrowserConnectionEnabled()) {
-        desiredCapabilities["browserConnectionEnabled"] = m_dc->isBrowserConnectionEnabled();
-    }
-
-    if(m_dc->hasWebStorageEnabled()) {
-        desiredCapabilities["webStorageEnabled"] = m_dc->isWebStorageEnabled();
-    }
-
-    if(m_dc->hasAcceptSslCerts()) {
-        desiredCapabilities["acceptSslCerts"] = m_dc->isAcceptSslCerts();
-    }
-
-    if(m_dc->hasRotatable()) {
-        desiredCapabilities["rotatable"] = m_dc->isRotatable();
-    }
-
-    if(m_dc->hasNativeEvents()) {
-        desiredCapabilities["nativeEvents"] = m_dc->isNativeEvents();
-    }
-
-    if(m_dc->hasUnexpectedAlertBehaviour()) {
-        desiredCapabilities["unexpectedAlertBehaviour"] = UnexpectedAlertBehaviour::toString(m_dc->unexpectedAlertBehaviour());
-    }
-
-    if(m_dc->hasElementScrollBehavior()) {
-        desiredCapabilities["elementScrollBehavior"] = m_dc->elementScrollBehavior();
+        desiredCapabilities.insert(i.key(), i.value());
     }
 
     QJsonObject rawBody;

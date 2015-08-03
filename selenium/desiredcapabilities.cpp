@@ -2,24 +2,36 @@
 
 DesiredCapabilities::DesiredCapabilities(BrowserType::BROWSER_TYPE browser)
 {
-    m_takesScreenshot     = true;
-    m_handlesAlerts       = true;
-    m_cssSelectorsEnabled = true;
-    m_javascriptEnabled   = true;
+    setTakesScreenshot(true);
+    setHandlesAlerts(true);
+    setCssSelectorsEnabled(true);
 
     m_proxy = 0;
 
     setBrowser(browser);
 }
 
-QVariant DesiredCapabilities::getProperty(QString property, QVariant value)
+QVariant DesiredCapabilities::property(QString property)
 {
-    if(m_properties.contains(property)) {
-        return value;
+    if(!m_properties.value(property).isNull()) {
+        return m_properties.value(property);
     }
 
-    qDebug()<<"Property "<<property<<" is not initialize!";
+    qDebug()<<"Property " << property << " is not initialize!";
     return QVariant();
 }
 
+void DesiredCapabilities::setProperty(QString property, QString value)
+{
+    m_properties.insert(property, QJsonValue(value));
+}
 
+void DesiredCapabilities::setProperty(QString property, bool value)
+{
+    m_properties.insert(property, QJsonValue(value));
+}
+
+void DesiredCapabilities::setProperty(QString property, int value)
+{
+    m_properties.insert(property, QJsonValue(value));
+}

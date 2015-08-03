@@ -14,13 +14,15 @@ void QueleniumTest::init()
 {
     //This local web server for easy testing
     m_testUrl = "quelenium.local.test";
+    m_host    = "127.0.0.1";
+    m_port    = 4444;
 
     Proxy *proxy = new Proxy(Proxy::DIRECT);
     DesiredCapabilities *cap = new DesiredCapabilities(BrowserType::FIREFOX);
     cap->setProxy(proxy);
 
     try {
-        driver = new WebDriver("127.0.0.1", "4444", cap);
+        driver = new WebDriver(m_host, m_port, cap);
     } catch (WebDriverException* e) {
         QFAIL(e->message().toUtf8());
     }
@@ -2164,6 +2166,44 @@ void QueleniumTest::serverStatusCase()
     if(status->java()) {
         QCOMPARE(status->java()->version(), QString("1.8.0_45"));
     }
+}
+
+void QueleniumTest::serverSessionsCase()
+{
+    Proxy *proxy = new Proxy(Proxy::DIRECT);
+    DesiredCapabilities *cap = new DesiredCapabilities(BrowserType::FIREFOX);
+    cap->setProxy(proxy);
+
+    int count = 4;
+    QList<WebDriver*> list;
+
+    for(int i = 0; i < count; i++) {
+        list.push_back(new WebDriver(m_host, m_port, cap, m_testUrl));
+    }
+
+    QList<Session*> listSession = driver->server()->sessions();
+
+    for(int i = 0; i < count; i++) {
+        list.at(i)->quit();
+    }
+
+    QCOMPARE(listSession.size(), 5);
+
+    for(int i = 0; i < listSession.size(); i++) {
+        Session* s = listSession.at(i);
+
+        QVERIFY(!s->id().isEmpty());
+
+        DesiredCapabilities* c = s->capabilities();
+
+        QVERIFY(c->isTakesScreenshot());
+        QVERIFY(c->isJavascriptEnabled());
+        QVERIFY(!c->isRotatable());
+        QVERIFY(c->isLocationContextEnabled());
+        QCOMPARE(c->browser(), BrowserType::FIREFOX);
+        QCOMPARE(c->version(), QString("39.0"));
+    }
+
 }
 
 QTEST_MAIN(QueleniumTest)

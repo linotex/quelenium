@@ -21,7 +21,7 @@ class SeleniumServerHub : public QObject
 {
     Q_OBJECT
 public:
-    explicit SeleniumServerHub(QString host, QString port);
+    explicit SeleniumServerHub(QString host, int port);
     ~SeleniumServerHub();
 
     enum HTTP_METHOD {
@@ -32,10 +32,10 @@ public:
     };
 
     QString host();
-    QString port();
+    int     port();
 
 protected:
-    void buildUrl(QString host, QString port);
+    void buildUrl(QString host, int port);
 
     QString     getValueString(QString s);
     QStringList getValueArrayString(QString s);
@@ -52,7 +52,7 @@ protected:
     void releaseReplyResources();
 
     QString m_host;
-    QString m_port;
+    int     m_port;
     QString m_urlHub;
 
     QNetworkReply *m_reply;

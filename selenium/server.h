@@ -4,6 +4,9 @@
 #include <QJsonObject>
 #include <QDebug>
 
+#include "desiredcapabilities.h"
+#include "browsertype.h"
+
 // Server build
 struct Build {
 
@@ -61,13 +64,28 @@ struct Status
         Java* m_java;
 };
 
+struct Session
+{
+public:
+    Session(QString id, DesiredCapabilities* cap) : m_id(id), m_cap(cap) {}
+
+    QString id() { return m_id; }
+    DesiredCapabilities* capabilities() { return m_cap; }
+
+private:
+    QString m_id;
+    DesiredCapabilities* m_cap;
+
+};
+
 class WebDriverHub;
 class Server
 {
 public:
     explicit Server(WebDriverHub* hub);
 
-    Status* status();
+    Status*         status();
+    QList<Session*> sessions();
 
 private:
     WebDriverHub* m_hub;

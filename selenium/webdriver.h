@@ -21,11 +21,11 @@ class WebDriver
 {
 
 public:
-    explicit WebDriver(QString host, QString port, BrowserType::BROWSER_TYPE browser, QString url);
-    WebDriver(QString host, QString port, DesiredCapabilities* desiredCapabilities, QString url);
+    explicit WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser, QString url);
+    WebDriver(QString host, int port, DesiredCapabilities* desiredCapabilities, QString url);
 
-    WebDriver(QString host, QString port, BrowserType::BROWSER_TYPE browser);
-    WebDriver(QString host, QString port, DesiredCapabilities* desiredCapabilities);
+    WebDriver(QString host, int port, BrowserType::BROWSER_TYPE browser);
+    WebDriver(QString host, int port, DesiredCapabilities* desiredCapabilities);
 
     ~WebDriver();
 
@@ -53,8 +53,8 @@ public:
     Server*         server();
 
 protected:
-    void init(QString host, QString port, DesiredCapabilities* dc, QString url);
-    void init(QString host, QString port, DesiredCapabilities* dc);
+    void init(QString host, int port, DesiredCapabilities* dc, QString url);
+    void init(QString host, int port, DesiredCapabilities* dc);
     WebDriverHub* getHub();
 
 private:

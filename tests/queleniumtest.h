@@ -32,6 +32,8 @@ private:
     void mouseButtonEvents(QString text, int event, int button = -1);
 
     QString m_testUrl;
+    QString m_host;
+    int     m_port;
 
 private Q_SLOTS:
 
@@ -86,7 +88,7 @@ private Q_SLOTS:
     void windowSetPositionCase1();
     void windowSetPositionCase2();
     //void windowCloseCase(); //in future
-    //void windowOopenNewTabCase();   //in future
+    //void windowOpenNewTabCase();   //in future
     //void windowOpenNewWindowCase();//in future
 
     /**
@@ -222,6 +224,7 @@ private Q_SLOTS:
      * Server Test Cases
      */
     void serverStatusCase();
+    void serverSessionsCase();
 
     void init();
     void cleanup();

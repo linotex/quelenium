@@ -2,6 +2,7 @@
 #define DESIREDCAPABILITIES_H
 
 #include <QObject>
+#include <QJsonObject>
 #include <QDebug>
 
 #include "proxy.h"
@@ -12,80 +13,63 @@ class DesiredCapabilities
 public:
     DesiredCapabilities(BrowserType::BROWSER_TYPE browser);
 
-    bool isTakesScreenshot()     { return m_takesScreenshot; }
-    bool isHandlesAlerts()       { return m_handlesAlerts; }
-    bool isCssSelectorsEnabled() { return m_cssSelectorsEnabled; }
-
-    void setBrowser(BrowserType::BROWSER_TYPE browser)       { m_browserType = browser; }
-    void setVersion(QString version)   { m_version = version; }
-    void setPlatform(int platform)     { m_platform = platform; }
-
-    void setDatabaseEnabled(bool enabled)          { m_databaseEnabled = enabled;           m_properties << "databaseEnabled"; }
-    void setLocationContextEnabled(bool enabled)   { m_locationContextEnabled = enabled;    m_properties << "locationContextEnabled"; }
-    void setApplicationCacheEnabled(bool enabled)  { m_applicationCacheEnabled = enabled;   m_properties << "applicationCacheEnabled"; }
-    void setBrowserConnectionEnabled(bool enabled) { m_browserConnectionEnabled = enabled;  m_properties << "browserConnectionEnabled"; }
-    void setWebStorageEnabled(bool enabled)        { m_webStorageEnabled = enabled;         m_properties << "webStorageEnabled"; }
-    void setAcceptSslCerts(bool accept)            { m_acceptSslCerts = accept;             m_properties << "acceptSslCerts"; }
-    void setNativeEvents(bool enabled)             { m_nativeEvents = enabled;              m_properties << "nativeEvents"; }
-    void setUnexpectedAlertBehaviour(int value)    { m_unexpectedAlertBehaviour = value;    m_properties << "unexpectedAlertBehaviour"; }
-    void setJavascriptEnabled(bool enabled)        { m_javascriptEnabled = enabled;         m_properties << "javascriptEnabled"; }      //only on HTMLUnitDriver
-    void setRotatable(bool rotable)                { m_rotatable = rotable;                 m_properties << "rotatable"; }              //only applies to mobile platforms
-    void setElementScrollBehavior(int value)       { m_elementScrollBehavior = value;       m_properties << "elementScrollBehavior"; }  //Supported in IE and Firefox (since 2.36)
-    void setProxy(Proxy* proxy)              { m_proxy = proxy; }
+    void setBrowser(BrowserType::BROWSER_TYPE browser)  { m_browserType = browser; }
+    void setProxy(Proxy* proxy)                         { m_proxy = proxy; }
+    void setVersion(QString version)                    { m_version = version; }
+    void setPlatform(int platform)                      { m_platform = platform;}
 
     BrowserType::BROWSER_TYPE browser()  { return m_browserType; }
-    Proxy* proxy() { return m_proxy; }
+    Proxy*  proxy()                       { return m_proxy; }
+    int     platform()                    { return m_platform; }
+    QString version()                     { return m_version; }
 
-    bool isDatabaseEnabled()          { return getProperty("databaseEnabled"         , m_databaseEnabled).toBool(); }
-    bool isLocationContextEnabled()   { return getProperty("locationContextEnabled"  , m_locationContextEnabled).toBool(); }
-    bool isApplicationCacheEnabled()  { return getProperty("applicationCacheEnabled" , m_applicationCacheEnabled).toBool(); }
-    bool isBrowserConnectionEnabled() { return getProperty("browserConnectionEnabled", m_browserConnectionEnabled).toBool(); }
-    bool isWebStorageEnabled()        { return getProperty("webStorageEnabled"       , m_webStorageEnabled).toBool(); }
-    bool isAcceptSslCerts()           { return getProperty("acceptSslCerts"          , m_acceptSslCerts).toBool(); }
-    bool isNativeEvents()             { return getProperty("nativeEvents"            , m_nativeEvents).toBool(); }
-    bool isJavascriptEnabled()        { return getProperty("javascriptEnabled"       , m_javascriptEnabled).toBool(); }
-    bool isRotatable()                { return getProperty("rotatable"               , m_rotatable).toBool(); }
-    int  unexpectedAlertBehaviour()   { return getProperty("unexpectedAlertBehaviour", m_unexpectedAlertBehaviour).toBool(); }
-    int  elementScrollBehavior()      { return getProperty("elementScrollBehavior"   , m_elementScrollBehavior).toBool(); }
+    void setDatabaseEnabled(bool enabled)          { setProperty("databaseEnabled",             enabled); }
+    void setLocationContextEnabled(bool enabled)   { setProperty("locationContextEnabled",      enabled); }
+    void setApplicationCacheEnabled(bool enabled)  { setProperty("applicationCacheEnabled",     enabled); }
+    void setBrowserConnectionEnabled(bool enabled) { setProperty("browserConnectionEnabled",    enabled); }
+    void setWebStorageEnabled(bool enabled)        { setProperty("webStorageEnabled",           enabled); }
+    void setAcceptSslCerts(bool accept)            { setProperty("acceptSslCerts",              accept);  }
+    void setNativeEvents(bool enabled)             { setProperty("nativeEvents",                enabled); }
+    void setUnexpectedAlertBehaviour(int value)    { setProperty("unexpectedAlertBehaviour",    value);   }
+    void setJavascriptEnabled(bool enabled)        { setProperty("javascriptEnabled",           enabled); }  //only on HTMLUnitDriver
+    void setRotatable(bool rotable)                { setProperty("rotatable",                   rotable); }  //only applies to mobile platforms
+    void setElementScrollBehavior(int value)       { setProperty("elementScrollBehavior",       value);   }  //Supported in IE and Firefox (since 2.36)
+    void setCssSelectorsEnabled(bool enabled)      { setProperty("cssSelectorsEnabled",         enabled); }
+    void setHandlesAlerts(bool handle)             { setProperty("handlesAlerts",               handle);  }
+    void setTakesScreenshot(bool take)             { setProperty("takesScreenshot",             take);    }
 
-    bool hasDatabaseEnabled()          { return m_properties.contains("databaseEnabled"); }
-    bool hasLocationContextEnabled()   { return m_properties.contains("locationContextEnabled"); }
-    bool hasApplicationCacheEnabled()  { return m_properties.contains("applicationCacheEnabled"); }
-    bool hasBrowserConnectionEnabled() { return m_properties.contains("browserConnectionEnabled"); }
-    bool hasWebStorageEnabled()        { return m_properties.contains("webStorageEnabled"); }
-    bool hasAcceptSslCerts()           { return m_properties.contains("acceptSslCerts"); }
-    bool hasNativeEvents()             { return m_properties.contains("nativeEvents"); }
-    bool hasJavascriptEnabled()        { return m_properties.contains("javascriptEnabled"); }
-    bool hasRotatable()                { return m_properties.contains("rotatable"); }
-    bool hasUnexpectedAlertBehaviour() { return m_properties.contains("unexpectedAlertBehaviour"); }
-    bool hasElementScrollBehavior()    { return m_properties.contains("elementScrollBehavior"); }
+    bool isTakesScreenshot()          { return property("takesScreenshot").toBool(); }    //Read-only from server
+    bool isHandlesAlerts()            { return property("handlesAlerts").toBool(); }      //Read-only from server
+    bool isCssSelectorsEnabled()      { return property("cssSelectorsEnabled").toBool(); }//Read-only from server
+    bool isDatabaseEnabled()          { return property("databaseEnabled").toBool(); }
+    bool isLocationContextEnabled()   { return property("locationContextEnabled").toBool(); }
+    bool isApplicationCacheEnabled()  { return property("applicationCacheEnabled").toBool(); }
+    bool isBrowserConnectionEnabled() { return property("browserConnectionEnabled").toBool(); }
+    bool isWebStorageEnabled()        { return property("webStorageEnabled").toBool(); }
+    bool isAcceptSslCerts()           { return property("acceptSslCerts").toBool(); }
+    bool isNativeEvents()             { return property("nativeEvents").toBool(); }
+    bool isJavascriptEnabled()        { return property("javascriptEnabled").toBool(); }
+    bool isRotatable()                { return property("rotatable").toBool(); }
+    int  unexpectedAlertBehaviour()   { return property("unexpectedAlertBehaviour").toInt(); }
+    int  elementScrollBehavior()      { return property("elementScrollBehavior").toInt(); }
+
+    QJsonObject properties() { return m_properties; }
 
 protected:
-    QVariant getProperty(QString property, QVariant value);
+    QVariant property(QString property);
+    void     setProperty(QString property, QString value);
+    void     setProperty(QString property, int value);
+    void     setProperty(QString property, bool value);
+
     bool     hasProperty(QString property);
 
-    QStringList m_properties;
-
-    bool m_takesScreenshot;
-    bool m_handlesAlerts;
-    bool m_cssSelectorsEnabled;
+    //QStringList m_properties;
+    QJsonObject m_properties;
 
     BrowserType::BROWSER_TYPE m_browserType;
-    int     m_platform;
+    Proxy*  m_proxy;
     QString m_version;
-
-    bool m_javascriptEnabled;//
-    bool m_databaseEnabled;
-    bool m_locationContextEnabled;
-    bool m_applicationCacheEnabled;
-    bool m_browserConnectionEnabled;
-    bool m_webStorageEnabled;
-    bool m_acceptSslCerts;
-    bool m_rotatable;//
-    bool m_nativeEvents;
-    Proxy* m_proxy;
-    int m_unexpectedAlertBehaviour;
-    int m_elementScrollBehavior;//
+    int     m_platform;
 };
 
 #endif // DESIREDCAPABILITIES_H

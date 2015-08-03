@@ -1,6 +1,6 @@
 #include "seleniumserverhub.h"
 
-SeleniumServerHub::SeleniumServerHub(QString host, QString port) :
+SeleniumServerHub::SeleniumServerHub(QString host, int port) :
     QObject()
 { 
     m_result = "";
@@ -18,19 +18,19 @@ QString SeleniumServerHub::host()
     return m_host;
 }
 
-QString SeleniumServerHub::port()
+int SeleniumServerHub::port()
 {
     return m_port;
 }
 
 //####### PROTECTED #######
-void SeleniumServerHub::buildUrl(QString host, QString port)
+void SeleniumServerHub::buildUrl(QString host, int port)
 {
     m_host = host.replace("http://", "");
     m_port = port;
 
     m_urlHub = "http://";
-    m_urlHub.append(m_host).append(":").append(m_port).append("/wd/hub/");
+    m_urlHub.append(m_host).append(":").append(QString::number(m_port)).append("/wd/hub/");
 }
 
 QJsonObject SeleniumServerHub::exec(QString url, QByteArray rawBody, int method)
